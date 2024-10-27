@@ -1,57 +1,84 @@
+;; custom variables in separate file
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+
+;; disable splash screen
 (setq inhibit-startup-screen t)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(LaTeX-command "pdflatex")
- '(TeX-PDF-mode t)
- '(TeX-view-program-selection
-   '(((output-dvi has-no-display-manager)
-      "dvi2tty")
-     ((output-dvi style-pstricks)
-      "dvips and gv")
-     (output-dvi "xdvi")
-     (output-pdf "PDF Tools")
-     (output-html "xdg-open")))
- '(cl-font-lock-built-in-mode t)
- '(cursor-type 'bar)
- '(custom-enabled-themes nil)
- '(custom-safe-themes
-   '("ba323a013c25b355eb9a0550541573d535831c557674c8d59b9ac6aa720c21d3" "a5270d86fac30303c5910be7403467662d7601b821af2ff0c4eb181153ebfc0a" default))
- '(display-line-numbers 'visual)
- '(electric-pair-mode t)
- '(latex-run-command "pdflatex")
- '(package-selected-packages
-   '(haskell-tng-mode hasklig-mode haskell-mode pdf-tools latex-preview-pane auctex))
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(pdf-tools-install)
-(add-hook 'pdf-view-mode-hook (lambda () (display-line-numbers-mode -1)))
-(setq-default tab-width 4)
-(setq-default indent-tabs-mode nil)
-(setq-default c-basic-offset 4)
-(setq TeX-auto-save t)
-(setq-default TeX-master nil)
-(require 'package 'hi2)
+
+;; disable menu and tool-bar
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+
+;; melpa
 (add-to-list 'package-archives
      '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
-(latex-preview-pane-enable)
-(add-hook 'haskell-mode-hook 'turn-on-hi2)
-(set-face-attribute 'default nil
-                    :family "Hasklig"
-                    :height '120
-                    :weight 'normal
-                    :width 'normal)
-(use-package hasklig-mode
-  :hook (haskell-mode))
 
+;; enable ido-mode
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+
+;; electric pair mode
+(electric-pair-mode t)
+(setq electric-pair-preserve-balance nil)
+
+;; disable backup and auto-save files
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(setq auto-save-list-file-prefix nil)
+
+;; yes or no questions to y or n
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; resize windows
+(global-set-key (kbd "s-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "s-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "s-C-<down>") 'shrink-window)
+(global-set-key (kbd "s-C-<up>") 'enlarge-window)
+
+;; switch cursor to new window
+(defun split-and-follow-horizontally ()
+  (interactive)
+  (split-window-below)
+  (balance-windows)
+  (other-window 1))
+(global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+(defun split-and-follow-vertically ()
+  (interactive)
+  (split-window-right)
+  (balance-windows)
+  (other-window 1))
+(global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
+
+;; pdf and latex config
+(pdf-tools-install)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
+(require 'tex)
+(TeX-global-PDF-mode t)
+(add-hook 'LaTeX-mode-hook 'latex-preview-pane-mode)
+
+;; relative line numbers
+(setq display-line-numbers-type 'relative)
+(add-hook 'prog-mode-hook (lambda() (display-line-numbers-mode 1)))
+(add-hook 'text-mode-hook (lambda() (display-line-numbers-mode 1)))
+
+;; indentation config
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq-default c-basic-offset 4)
+
+;; ace-window keybind
+(global-set-key (kbd "M-o") 'ace-window)
+
+;; kill all other buffers
 (defun kill-other-buffers ()
       "Kill all other buffers."
       (interactive)
