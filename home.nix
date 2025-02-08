@@ -1,6 +1,12 @@
 { config, pkgs, ... }:
 
 {
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = (_: true);
+    };
+  };
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "calcado";
@@ -21,6 +27,9 @@
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     pkgs.hello
+    pkgs.qbittorrent
+    pkgs.mpv
+    pkgs.discord
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -82,6 +91,7 @@
       set number
       set autoindent
       let g:haskell_indent_disable = 1
+      au FileType c setlocal tabstop=4 shiftwidth=0
     '';
   };
 
