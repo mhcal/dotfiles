@@ -42,6 +42,9 @@
     LC_TIME = "pt_PT.UTF-8";
   };
 
+  # Enable Docker virtualisation
+  virtualisation.docker.enable = true;
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -107,12 +110,14 @@
     ghc
     gcc
     sioyek
+    gdb
+    gnumake
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
+  # programs.gnug.agent = {
   #   enable = true;
   #   enableSSHSupport = true;
   # };
