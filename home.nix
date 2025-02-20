@@ -90,6 +90,7 @@
       set mouse=a
       set ignorecase
       set number
+      set relativenumber
       set autoindent
       let g:haskell_indent_disable = 1
       au FileType c setlocal tabstop=4 shiftwidth=0
