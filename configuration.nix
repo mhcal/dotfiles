@@ -55,7 +55,7 @@
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us,br";
-    variant = "thinkpad";
+    variant = "altgr-intl,thinkpad";
     options = "grp:win_space_toggle, ctrl:swapcaps";
   };
 
@@ -105,14 +105,19 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
+    vscodium
     git
     gh
     ghc
     gcc
-    sioyek
     gdb
     gnumake
+    ocaml
+    opam
+    sioyek
     unzip
+    zip
+    coqPackages.vscoq-language-server
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -126,7 +131,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

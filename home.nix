@@ -23,14 +23,15 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    pkgs.hello
-    pkgs.qbittorrent
-    pkgs.mpv
-    pkgs.discord
-    pkgs.spotify
+    hello
+    qbittorrent
+    mpv
+    discord
+    spotify
+    signal-desktop
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -92,8 +93,9 @@
       set number
       set relativenumber
       set autoindent
+      set hlsearch
       let g:haskell_indent_disable = 1
-      au FileType c setlocal tabstop=4 shiftwidth=0
+      au FileType c,cpp setlocal tabstop=4 shiftwidth=0
     '';
   };
 
