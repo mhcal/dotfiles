@@ -1,5 +1,4 @@
 {
-
   description = "Default flake";
   
   inputs = {
@@ -27,5 +26,4 @@
       };
     };
   };
-
 }
