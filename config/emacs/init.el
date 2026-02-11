@@ -23,7 +23,9 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (blink-cursor-mode -1)
+(global-visual-line-mode)
 (electric-pair-mode 1)
+(winner-mode 1)
 
 ;; "y or n" instead of "yes or no"
 (setopt use-short-answers t)
@@ -36,8 +38,8 @@
 (setq-default indent-tabs-mode nil
               tab-width 4)
 
-;; ;; change selected region color
-;; (set-face-attribute 'region nil :background "#e9e9e9")
+;; change selected region color
+(set-face-attribute 'region nil :background "#e9e9e9")
 
 ;; melpa
 (require 'package)
@@ -56,9 +58,11 @@
   :bind (("<escape>" . keyboard-escape-quit))
   :init
   (setq evil-want-integration t
-	evil-want-keybinding nil
-	evil-undo-system 'undo-redo)
+	    evil-want-keybinding nil
+	    evil-undo-system 'undo-redo)
   :config
+  (define-key evil-window-map "u" 'winner-undo)
+  (define-key evil-window-map "U" 'winner-redo)
   (evil-mode))
 
 (use-package evil-collection
@@ -105,81 +109,9 @@
   :config
   (defun my/c-style ()
     (setq c-basic-offset 4
-	  tab-width 4
-	  indent-tab-modes nil))
+  	      tab-width 4
+  	      indent-tab-modes nil))
   (add-hook 'c-mode-common-hook 'my/c-style))
 
 ;; haskell
 (use-package haskell-mode)
-
-;; ;; general (setup leader key)
-;; (use-package general
-;;   :after evil
-;;   :config
-;;   (general-evil-setup)
-;;   (general-create-definer my/leader
-;;     :states '(normal insert visual emacs)
-;;     :keymaps 'override
-;;     :prefix "SPC"
-;;     :global-prefix "C-SPC")
-;; 
-;;   (my/leader
-;;     ;; basic keybindings
-;;     "SPC" 'execute-extended-command
-;;     "TAB" 'evil-switch-to-windows-last-buffer
-;;     "f f" 'find-file
-;;     "q q" 'save-buffers-kill-terminal
-;; 
-;;     ;; help
-;;     "h h" 'help
-;;     "h f" 'describe-function
-;;     "h v" 'describe-variable
-;;     "h o" 'describe-symbol
-;;     "h k" 'describe-key
-;; 
-;;     ;; buffers
-;;     "b b" 'switch-to-buffer
-;;     "b s" 'save-buffer
-;;     "b k" 'kill-buffer
-;;     "b r" 'revert-buffer
-;;     "b l" 'list-buffers
-;;     "b i" 'ibuffer
-;;     "b n" 'evil-buffer-new
-;; 
-;;     ;; eval
-;;     "e e" 'eval-last-sexp
-;;     "e p" 'eval-print-last-sexp
-;;     "e r" 'eval-region
-;;     "e b" 'eval-buffer
-;; 
-;;     ;; dired
-;;     "d d" 'dired
-;;     "d o" 'dired-other-window
-;; 
-;;     ;; shell
-;;     "s s" 'shell-command
-;;     "s a" 'async-shell-command
-;;     "s e" 'eshell
-;; 
-;;     ;; compilation
-;;     "c c" 'compile
-;;     "c r" 'recompile
-;; 
-;;     ;; windows
-;;     "w w" 'evil-window-next
-;;     "w s" 'evil-window-split
-;;     "w v" 'evil-window-vsplit
-;;     "w d" 'evil-window-delete
-;;     "w h" 'evil-window-left
-;;     "w j" 'evil-window-down
-;;     "w k" 'evil-window-up
-;;     "w l" 'evil-window-right
-;;     "w H" 'evil-window-move-far-left
-;;     "w J" 'evil-window-move-very-bottom
-;;     "w K" 'evil-window-move-very-top
-;;     "w L" 'evil-window-move-far-right
-;;     "w 1" 'winum-select-window-1
-;;     "w 2" 'winum-select-window-2
-;;     "w 3" 'winum-select-window-3
-;;     "w 4" 'winum-select-window-4
-;;     "w f" 'delete-other-windows))
