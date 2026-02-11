@@ -5,6 +5,7 @@
   imports = [
     ./modules/git.nix
     ./modules/emacs.nix
+    ./modules/xmonad.nix
     ./modules/vim.nix
     ./modules/bash.nix
     ./modules/direnv.nix
@@ -23,6 +24,7 @@
   # Packages
   home.packages = with pkgs; [
     hello
+    #lightlocker
     gh
     ghc
     chromium
@@ -37,6 +39,25 @@
     via
     vial
   ];
+
+  # Auto-lock and idle sleep
+  programs.xss-lock = {
+    enable = true;
+    # lockerCommand = ""
+  };
+
+
+  services.xidlehook = {
+    enable = true;
+    detect-sleep = true;
+    not-when-audio = true;
+    timers = [
+      {
+        delay = 300;
+        command = "${pkgs.systemd}/bin/systemctl suspend";
+      }
+    ];
+  };
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
